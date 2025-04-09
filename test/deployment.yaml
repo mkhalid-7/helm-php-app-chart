@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-app-deployment
+  labels:
+    app: php-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-app
+  template:
+    metadata:
+      labels:
+        app: php-app
+    spec:
+      containers:
+        - name: php-app
+          image: mkhalid77/php-app:latest  # Updated image name
+          ports:
+            - containerPort: 80
+          env:
+            - name: MYSQL_HOST
+              value: my-mysql  # Service name of MySQL
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_PASS
+            - name: MYSQL_DB
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_DB
+            - name: MYSQL_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_ROOT_USER  # Add the root user credential
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_ROOT_PASSWORD  # Add the root password credential
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-app-service
+spec:
+  selector:
+    app: php-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-statefulset
+  labels:
+    app: mysql
+spec:
+  serviceName: "my-mysql"  # Updated service name
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      tier: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: php-app-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: php-app-secret
+              key: MYSQL_DB
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: ebs-sc
+      resources:
+        requests:
+          storage: 3Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-mysql  # Updated to match the service name
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  clusterIP: None
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: php-app-secret
+type: Opaque
+data:
+  MYSQL_HOST: bXktbXlzcWw=               # base64 encoded 'my-mysql'
+  MYSQL_USER: bWtoYWxpZA==              # base64 encoded 'mkhalid'
+  MYSQL_PASS: bWtoYWxpZA==              # base64 encoded 'mkhalid'
+  MYSQL_ROOT_PASSWORD: cm9vdHBhc3N3b3Jk # base64 encoded 'rootpassword'
+  MYSQL_DB: dGVzdGRi                    # base64 encoded 'testdb'
+  MYSQL_ROOT_USER: cm9vdA==              # base64 encoded 'root'

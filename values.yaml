@@ -1,0 +1,17 @@
+phpApp:
+  name: php-app-deployment
+  image: mkhalid77/php-app:latest
+  replicas: 1
+  service:
+    type: NodePort
+    port: 80
+
+mysql:
+  image: mysql:8.0
+  db: testdb
+  user: mkhalid
+  password: mkhalid
+  rootUser: root
+  rootPassword: rootpassword
+  storage: 3Gi
+  storageClass: ebs-sc

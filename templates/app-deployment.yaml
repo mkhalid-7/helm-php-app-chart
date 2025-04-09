@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .values.phpApp.name }}
+  labels:
+    app: php-app
+spec:
+  replicas: {{ .values.phpApp.replicas }}
+  selector:
+    matchLabels:
+      app: php-app
+  template:
+    metadata:
+      labels:
+        app: php-app
+    spec:
+      containers:
+        - name: php-app
+          image: {{ .Values.phpApp.image }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: MYSQL_HOST
+              value: my-mysql
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_PASS
+            - name: MYSQL_DB
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_DB
+            - name: MYSQL_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_ROOT_USER
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: php-app-secret
+                  key: MYSQL_ROOT_PASSWORD
