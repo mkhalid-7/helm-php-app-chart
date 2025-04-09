@@ -8,10 +8,10 @@ phpApp:
 
 mysql:
   image: mysql:8.0
-  db: testdb
-  user: mkhalid
-  password: mkhalid
-  rootUser: root
-  rootPassword: rootpassword
+  db: "testdb"
+  user: "mkhalid"
+  password: "mkhalid"
+  rootUser: "root"
+  rootPassword: "rootpassword"
   storage: 3Gi
   storageClass: ebs-sc
