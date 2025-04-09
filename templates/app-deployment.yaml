@@ -5,7 +5,7 @@ metadata:
   labels:
     app: php-app
 spec:
-  replicas: {{ .values.phpApp.replicas }}
+  replicas: {{ .Values.phpApp.replicas }}
   selector:
     matchLabels:
       app: php-app
