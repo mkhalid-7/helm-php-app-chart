@@ -1,6 +1,6 @@
 apiVersion: v2
 name: php-mysql-app
-description: A PHP + MySQL demo app
+description: A PHP application with MySQL on Kubernetes
 type: application
 version: 0.1.0
 appVersion: "1.0"
