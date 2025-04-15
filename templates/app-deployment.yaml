@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.phpApp.name }}
   labels:
     app: php-app
+  namespace: {{ .Values.phpApp.namespace }}  
 spec:
   replicas: {{ .Values.phpApp.replicas }}
   selector:
