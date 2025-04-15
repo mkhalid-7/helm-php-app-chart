@@ -7,7 +7,7 @@
 🧼 To uninstall:
   helm uninstall {{ .Release.Name }}
 
-↩️ To roll back to a previous version:
+↩️  To roll back to a previous version:
 
   helm rollback {{ .Release.Name }} 1 
 

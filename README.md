@@ -1,11 +1,5 @@
-🧾 index.php
-Displays a form to collect user input (first name, last name, email, etc.).
+Overview
+A brief description of what the project is, its purpose, and key features.
 
-Submits that form via POST to register.php.
+This is a custom Helm chart for deploying a PHP application with a MySQL database in a Kubernetes environment. It simplifies deploying PHP and MySQL services with proper configurations, making it easy to scale and maintain applications in the cloud.
 
-📄 register.php
-Creates the database user and table if needed.
-
-Takes POSTed form data and inserts it into the MySQL database.
-
-Then displays that same form data in an HTML table right after inserting it.
