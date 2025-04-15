@@ -7,6 +7,6 @@ spec:
     app: php-app
   ports:
     - protocol: TCP
-      port: {{ .Values.phpApp.service.port }}
+      port: 80
       targetPort: 80
-  type: {{ .Values.phpApp.service.type }}
+  type: NodePort
