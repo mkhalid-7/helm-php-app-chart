@@ -1,7 +1,7 @@
 phpApp:
   name: php-app-deployment
   image: mkhalid77/php-app:latest
-  replicas: 3
+  replicas: 1
   service:
     type: NodePort
     port: 80
