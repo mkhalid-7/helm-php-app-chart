@@ -7,8 +7,8 @@ mysql:
   image: mysql:8.0
   storage: 3Gi
   storageClass: ebs-sc
-  db: "dGVzdGRi"
-  user: "bWtoYWxpZA=="
-  password: "bWtoYWxpZA=="
-  rootUser: "cm9vdA=="
-  rootPassword: "cm9vdHBhc3N3b3Jk"
+  # db: "dGVzdGRi"
+  # user: "bWtoYWxpZA=="
+  # password: "bWtoYWxpZA=="
+  # rootUser: "cm9vdA=="
+  # rootPassword: "cm9vdHBhc3N3b3Jk"

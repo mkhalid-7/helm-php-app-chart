@@ -68,7 +68,7 @@ $rootUser = getenv('MYSQL_ROOT_USER');  // MySQL root user for administrative ta
 $rootPassword = getenv('MYSQL_ROOT_PASSWORD');  // MySQL root password
 
 ////////////////////////
-// Step 1: Connect as root to create user
+// Connect as root to create user
 $rootCon = new mysqli($server, $rootUser, $rootPassword, null, $port);
 if ($rootCon->connect_error) {
     die("❌ Root connection failed: " . $rootCon->connect_error);
@@ -89,7 +89,7 @@ if ($rootCon->multi_query($createUserSql)) {
 }
 $rootCon->close();
 
-// Step 2: Connect using application user
+// Connect using application user
 $con = new mysqli($server, $username, $password, $database, $port);
 if ($con->connect_error) {
     die("❌ App connection failed: " . $con->connect_error);
