@@ -1,0 +1,18 @@
+🎉 {{ .Chart.Name }} has been successfully deployed!
+
+🔍 To view status or history:
+  helm status {{ .Release.Name }}
+  helm history {{ .Release.Name }}
+
+🧼 To uninstall:
+  helm uninstall {{ .Release.Name }}
+
+↩️ To roll back to a previous version:
+
+  helm rollback {{ .Release.Name }} 1 
+
+📦 To upgrade the release:
+   helm upgrade {{ .Release.Name }} . 
+
+To see all reources :
+   kubectl get all
